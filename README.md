@@ -1,4 +1,4 @@
-<h1 align = "center"> 🌟T-Display-S3🌟</h1>
+<h1 align = "center"> 🌟T-Display-S3 VESC speedometer</h1>
 
    * Connect the board via the USB cable
    * Press and hold the **BOOT** button , While still pressing the **BOOT** button
