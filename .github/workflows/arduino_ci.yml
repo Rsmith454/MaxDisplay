@@ -37,6 +37,7 @@ jobs:
         run: |
           mkdir -p $HOME/Arduino/libraries ;
           cp  -r $PWD/lib/* $HOME/Arduino/libraries
-
+          cp -r $PWD/src/lv_speedometer/lib $HOME/Arduino/libraries ;
+          cp -r $PWD/src/lv_speedometer/fonts $HOME/Arduino/libraries ;
           cd $GITHUB_WORKSPACE ;
           arduino-cli compile -b esp32:esp32:feathers3 $PWD/$EXAMPLES ;
