@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         examples:
-          - src/lv_speedometer/lv_speedometer.ino.cpp
+          - src/lv_speedometer/main.ino
 
     env:
       EXAMPLES: ${{matrix.examples}}
