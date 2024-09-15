@@ -5,7 +5,6 @@ on:
   pull_request:
   push:
     paths:
-      - "examples/**"
       - "src/**"
       - "lib/**"
       - "platformio.ini"
@@ -17,25 +16,7 @@ jobs:
     strategy:
       matrix:
         examples:
-          - examples/Arduino_GFXDemo/Arduino_GFXDemo.ino
-          - examples/Arduino_GFX_PDQgraphicstest/Arduino_GFX_PDQgraphicstest.ino
-          - examples/factory/factory.ino
-          - examples/GetBatteryVoltage/GetBatteryVoltage.ino
-          - examples/I2CScan/I2CScan.ino
-          - examples/ImageScroll/ImageScroll.ino
-          - examples/lv_demos/lv_demos.ino
-          - examples/MPR121TouchSensor/MPR121TouchSensor.ino
-          - examples/nes/nes.ino
-          - examples/ota/ota.ino
-          - examples/PCBClock/PCBClock.ino
-          - examples/PokerS3/PokerS3.ino
-          - examples/sd/sd.ino
-          - examples/SerialExample/SerialExample.ino
-          - examples/T-Display-S3-MIDI/T-Display-S3-MIDI.ino
-          - examples/tft/tft.ino
-          - examples/TFT_Rainbow/TFT_Rainbow.ino
-          - examples/touch_test/touch_test.ino
-          - examples/usb_hid_pad/usb_hid_pad.ino
+          - src/lv_speedometer/lv_speedometer.ino.cpp
 
     env:
       EXAMPLES: ${{matrix.examples}}

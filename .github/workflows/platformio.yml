@@ -5,7 +5,6 @@ on:
   pull_request:
   push:
     paths:
-      - "examples/**"
       - "src/**"
       - "lib/**"
       - "platformio.ini"
@@ -16,25 +15,7 @@ jobs:
     strategy:
       matrix:
         example:
-          - Arduino_GFXDemo
-          - Arduino_GFX_PDQgraphicstest
-          - GetBatteryVoltage
-          - I2CScan
-          - ImageScroll
-          - MPR121TouchSensor
-          - PCBClock
-          - PokerS3
-          - SerialExample
-          - T-Display-S3-MIDI
-          - TFT_Rainbow
-          - factory
-          - lv_demos
-          - nes
-          - ota
-          - sd
-          - tft
-          - touch_test
-          - usb_hid_pad
+          - lv_speedometer
 
     steps:
       - uses: actions/checkout@v3
@@ -52,5 +33,5 @@ jobs:
 
       - name: Run PlatformIO
         run: |
-          export PLATFORMIO_SRC_DIR="examples/${{ matrix.example }}"
+          export PLATFORMIO_SRC_DIR="src/${{ matrix.example }}"
           pio run -e  ${{ matrix.example }}
