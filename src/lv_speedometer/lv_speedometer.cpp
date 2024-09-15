@@ -2,6 +2,7 @@
  *      INCLUDES
  *********************/
 #include "lv_speedometer.h"
+#include "ride_config.h"
 #include "lib/VescUart.h"
 #include "lib/SimpleKalmanFilter.h"
 
@@ -33,6 +34,7 @@ static void set_value(lv_obj_t *indic, int32_t v);
 static void anim_x_cb(void *var, int32_t v);
 static void anim_size_cb(void *var, int32_t v);
 static void my_timer(lv_timer_t *timer);
+static float calculate_velocity(float rpm, float wheel_diameter, float gear_reduction, bool is_mph);
 
 /**********************
  *  STATIC VARIABLES
@@ -61,9 +63,9 @@ static SimpleKalmanFilter filter_current(2, 2, 0.01);
 static SimpleKalmanFilter filter_vesc(2, 2, 0.01);
 static SimpleKalmanFilter filter_motor(2, 2, 0.01);
 
-static int Poles = 56;                  //Usually 46 for hub motor
-static float WheelDia = 0.6278;           //Wheel diameter in m
-static float GearReduction = 1;         //reduction ratio. 1 for direct drive. Otherwise motor pulley diameter / Wheel pulley diameter.
+static int Poles = POLES;                  //Usually 46 for hub motor
+static float WheelDia = WHEEL_DIAMETER;           //Wheel diameter in m
+static float GearReduction = GEAR_RATIO;         //reduction ratio. 1 for direct drive. Otherwise motor pulley diameter / Wheel pulley diameter.
 
 float rpm;
 float voltage;
@@ -205,9 +207,9 @@ void  lv_create_main_screen(void)
     lv_anim_set_values(&a, 0, 100);
     lv_anim_start(&a);
 
-    lv_timer_t * timer = lv_timer_create(my_timer, 500,  NULL);
+    lv_timer_t * timer = lv_timer_create(my_timer, UPDATE_INTERVAL,  NULL);
 
-    SerialPort.begin(115200, SERIAL_8N1, 18, 17);
+    SerialPort.begin(115200, SERIAL_8N1, RX_PIN, TX_PIN);
     UART.setSerialPort(&SerialPort);
 }
 
@@ -221,7 +223,8 @@ static void my_timer(lv_timer_t * timer)
         rpm = UART.data.rpm / (Poles / 2);                                // UART.data.rpm returns cRPM.  Divide by no of pole pairs in the motor for actual.
         voltage = (UART.data.inpVoltage);                                 //Battery Voltage
         current = (UART.data.avgInputCurrent);                            //Current Draw
-        velocity = rpm*3.142*(60.0/1000.0)*WheelDia*GearReduction;
+        velocity = calculate_velocity(rpm, WheelDia, GearReduction, IS_KPH);
+
     }
 
     float current_filtered = filter_current.updateEstimate(current);
@@ -233,7 +236,7 @@ static void my_timer(lv_timer_t * timer)
     lv_label_set_text_fmt(motor_temp_label, "%d", (int)motor_filtered);
     lv_label_set_text_fmt(current_label, "%d", (int)current_filtered);
     
-    int bar_current = lv_map(current_filtered, 0, 700, 0, 100);
+    int bar_current = lv_map(current_filtered, 0, BATTERY_MAX_AMPS, 0, 100);
     lv_bar_set_value(current_bar, bar_current, LV_ANIM_ON);
 }
 
@@ -256,3 +259,8 @@ static void anim_size_cb(void * var, int32_t v)
 {
     lv_obj_set_size((lv_obj_t *)var, v, v);
 }
+
+static float calculate_velocity(float rpm, float wheel_diameter, float gear_reduction, bool is_mph)
+{
+    return rpm * (M_PI * wheel_diameter * (is_mph ? 1.60934 : 1.0) * 3.6) / (60.0 * gear_reduction);
+} 
