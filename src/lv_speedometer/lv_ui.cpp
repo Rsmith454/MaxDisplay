@@ -1,7 +1,7 @@
 /*********************
  *      INCLUDES
  *********************/
-#include "lv_speedometer.h"
+#include "lv_ui.h"
 #include "ride_config.h"
 #include "lib/VescUart.h"
 #include "lib/SimpleKalmanFilter.h"
