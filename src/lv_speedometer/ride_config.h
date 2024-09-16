@@ -11,7 +11,7 @@ const int POLES = 56;
 const float GEAR_RATIO = 1.0;
 
 // velocity unit
-const bool IS_KPH = true;
+const bool IS_MPH = false;
 
 // Speedometer update interval (in milliseconds)
 const int UPDATE_INTERVAL = 500;

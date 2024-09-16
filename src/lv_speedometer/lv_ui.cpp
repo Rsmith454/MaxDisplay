@@ -223,7 +223,7 @@ static void my_timer(lv_timer_t * timer)
         rpm = UART.data.rpm / (Poles / 2);                                // UART.data.rpm returns cRPM.  Divide by no of pole pairs in the motor for actual.
         voltage = (UART.data.inpVoltage);                                 //Battery Voltage
         current = (UART.data.avgInputCurrent);                            //Current Draw
-        velocity = calculate_velocity(rpm, WheelDia, GearReduction, IS_KPH);
+        velocity = calculate_velocity(rpm, WheelDia, GearReduction, IS_MPH);
 
     }
 
