@@ -1,4 +1,4 @@
-[![PlatformIO CI](https://github.com/Rsmith454/MaxDisplay/actions/workflows/platformio.yml/badge.svg)](https://github.com/Xinyuan-LilyGO/T-Display-S3/actions/workflows/platformio.yml)
+[![PlatformIO CI](https://github.com/Rsmith454/MaxDisplay/actions/workflows/platformio.yml/badge.svg)](https://github.com/Rsmith454/MaxDisplay/actions/workflows/platformio.yml)
 
 <h1 align = "center"> 🌟T-Display-S3 VESC speedometer</h1>
 
